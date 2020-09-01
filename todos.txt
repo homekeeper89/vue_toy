@@ -1,0 +1,6 @@
+챕터 익힌 후 복습하기 위한 자체 요구사항
+
+1. 유저 회원가입 만들기
+- email, nickname, password, favorite_language를 받는다
+- email, nickname 은 중복 검사 기능이 있다
+- favorite_language를 제외한 3개는 필수 사항이다.

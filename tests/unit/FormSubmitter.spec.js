@@ -11,6 +11,7 @@ const mockHttp = {
       url = _url;
       data = _data;
       resolve();
+      // reject(); 에러 발생하고 싶을때
     });
   },
 };

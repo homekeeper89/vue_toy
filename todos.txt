@@ -4,3 +4,4 @@
 - email, nickname, password, favorite_language를 받는다
 - email, nickname 은 중복 검사 기능이 있다
 - favorite_language를 제외한 3개는 필수 사항이다.
+> 단순히 vue안에 method를 테스트 하려고 하면 어떻게 해야하는가?

@@ -34,4 +34,23 @@ describe('FormSubmitter', () => {
     expect(url).toBe('/api/v1/register');
     expect(data).toEqual({ username: 'alice' });
   });
+
+  it('제줄했을때 알림 나타남222', async () => {
+    const wrapper = shallowMount(FormSubmitter, {
+      mocks: {
+        $http: mockHttp,
+      },
+    });
+
+    wrapper.find('[data-username]').setValue('alice');
+    wrapper.find('form').trigger('submit.prevent');
+
+    await flushPromises(); // $nextTick() 한 것과 같음.
+
+    expect(wrapper.find('.message').text()).toBe(
+      'Thank you for your submission, alice.'
+    );
+    expect(url).toBe('/api/v1/register');
+    expect(data).toEqual({ username: 'alice' });
+  });
 });

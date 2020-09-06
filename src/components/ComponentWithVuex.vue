@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'ComponentWithVuex',
   data() {
@@ -17,9 +18,10 @@ export default {
     };
   },
   computed: {
-    fullname() {
-      return this.$store.getters.fullname;
-    },
+    ...mapGetters(['fullname']),
+    // fullname(){
+    //  return this.$store.getters.fullname 과 같음
+    // }
   },
 };
 </script>

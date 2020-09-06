@@ -28,4 +28,38 @@ describe('ComponentWithButtons', () => {
       { msg: 'Test Commit' }
     );
   });
+
+  it('mock 버튼 클릭', async () => {
+    const mockStore = { dispatch: jest.fn() };
+    const wrapper = shallowMount(ComponentWithButtons, {
+      mocks: {
+        $store: mockStore,
+      },
+    });
+
+    wrapper.find('.dispatch').trigger('click');
+    await wrapper.vm.$nextTick();
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith('testAction', {
+      msg: 'Test Dispatch',
+    });
+  });
+
+  it('namedspaced ', async () => {
+    const store = new Vuex.Store();
+    store.dispatch = jest.fn();
+    const wrapper = shallowMount(ComponentWithButtons, {
+      store,
+      localVue,
+    });
+
+    wrapper.find('.namespaced-dispatch').trigger('click');
+    await wrapper.vm.$nextTick();
+
+    expect(
+      store.dispatch
+    ).toHaveBeenCalledWith('namespaced/very/deeply/testAction', {
+      msg: 'Test Namespaced Dispatch',
+    });
+  });
 });

@@ -6,7 +6,9 @@
     </div>
     <h1>Posts</h1>
     <div v-for="post in posts" :key="post.id" class="post">
-      <router-link :to="postLink(post.id)">{{ post.title }}</router-link>
+      <router-link :to="postLink(post.id)">
+        {{ post.title }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -25,7 +27,7 @@ export default {
     },
   },
   methods: {
-    postLonk(id) {
+    postLink(id) {
       return `/posts/${id}`;
     },
   },

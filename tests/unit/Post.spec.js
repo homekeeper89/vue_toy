@@ -6,42 +6,64 @@ import Posts from '@/components/Posts.vue';
 import { createRouter } from '@/router/index.js';
 import { createStore } from '@/store/index.js';
 
-describe('Posts.vue', () => {
-  it('통과하면 메세지를 렌더한다', () => {
-    const localVue = createLocalVue();
-    localVue.use(VueRouter);
-    localVue.use(Vuex);
+const createWrapper = (component, options = {}, storeState = {}) => {
+  const localVue = createLocalVue();
+  localVue.use(VueRouter);
+  localVue.use(Vuex);
+  const store = createStore(storeState);
+  const router = createRouter();
 
-    const store = createStore();
-    const router = createRouter();
-    const message = 'New Content coming soon';
-    const wrapper = mount(Posts, {
+  return mount(component, {
+    store,
+    router,
+    localVue,
+    ...options,
+  });
+};
+
+describe('Posts.vue', () => {
+  it('renders a message if passed', () => {
+    const message = 'New content coming soon!';
+    const wrapper = createWrapper(Posts, {
       propsData: { message },
-      store,
-      router,
     });
 
-    expect(wrapper.find('#message').text()).toBe(message);
+    expect(wrapper.find('#message').text()).toBe('New content coming soon!');
   });
 
-  it('posts를 렌더한다', async () => {
-    const localVue = createLocalVue();
-    localVue.use(VueRouter);
-    localVue.use(Vuex);
-
-    const store = createStore();
-    const router = createRouter();
-
-    const message = 'New Content coming soon';
-    const wrapper = mount(Posts, {
-      propsData: { message },
-      store,
-      router,
-    });
-
-    wrapper.vm.$store.commit('ADD_POSTS', [{ id: 1, title: 'Post' }]);
-    await wrapper.vm.$nextTick();
+  it('renders posts', async () => {
+    const wrapper = createWrapper(
+      Posts,
+      {},
+      {
+        posts: [{ id: 1, title: 'Post' }],
+      }
+    );
 
     expect(wrapper.findAll('.post').length).toBe(1);
+  });
+
+  it('renders new post link if authenticated', async () => {
+    const wrapper = createWrapper(
+      Posts,
+      {},
+      {
+        authenticated: true,
+      }
+    );
+
+    expect(wrapper.find('.new-post').exists()).toBe(true);
+  });
+
+  it('does not render new post link if not authenticated', async () => {
+    const wrapper = createWrapper(
+      Posts,
+      {},
+      {
+        authenticated: false,
+      }
+    );
+
+    expect(wrapper.find('.new-post').exists()).toBe(false);
   });
 });

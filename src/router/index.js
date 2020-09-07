@@ -39,6 +39,16 @@ router.beforeEach((to, from, next) => beforeEach(to, from, next));
 
 export default router;
 
-export const createRouter = () => {
-  return new VueRouter({});
+// export const createRouter = () => {
+//   return new VueRouter({});
+// };
+
+const createRouter = () => {
+  return new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes: [],
+  });
 };
+
+export { createRouter };
